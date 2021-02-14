@@ -1,7 +1,7 @@
 let img
 let uploadImg
-const cols = 35
-const rows = 35
+const cols = 20
+const rows = 20
 let matrix = []
 let xSpacing
 let ySpacing
@@ -14,31 +14,26 @@ function preload() {
 }
 
 function setup() {
-  image(uploadImg ? uploadImg : img, 0, 0)
+  noLoop()
   var myCanvas = createCanvas(img.width, img.height)
+  image(uploadImg ? uploadImg : img, 0, 0)
   w = width/cols
   h = height/rows
-  input = createFileInput(handleFile);
+  // input = createFileInput(handleFile);
   // myCanvas.parent("p5")
-
   xSpacing = width/cols
   ySpacing = height/cols
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      matrix.push([Spot(i*xSpacing,j*ySpacing)])
+      matrix.push([
+        Spot(i*xSpacing,j*ySpacing, xSpacing, ySpacing),
+        get(i*xSpacing,j*ySpacing)
+      ])
     }
   }
-
-  saveColors(matrix)
 }
 
-function saveColors(matrix) {
-  matrix.forEach((cell, i) => {
-    matrix[i].push(get(cell[0].values()._x, cell[0].values()._y))
-  })    
-}
-  
 function draw() {
   uploadImg && resizeCanvas(uploadImg.width, uploadImg.height);
 
@@ -58,16 +53,13 @@ function draw() {
 
   // image(uploadImg ? uploadImg : img, 0, 0)
   // saveColors(matrix)
-  background(0)
+  // background(0)
   // shuffleArray(matrix)
+  background(0)
 
   matrix.forEach((cell, i) => {
-    debugger
-    fill(cell[1])
     noStroke()
-    cell[0].display()
-    // ellipseMode(CORNER)
-    // ellipse(cell[0], cell[1], w, h)
+    cell[0].display(cell[1])
   })  
 }
 
@@ -98,16 +90,24 @@ function handleFile(file) {
   }
 }  
 
-function Spot(x, y) {
+function maybe() {
+  return random() < 0.1
+}
+
+function Spot(x, y, w, h) {
   let _x = x
   let _y = y
-  let _r = 2
+  let _r = 10
   let hovered = false
 
-  function display() {
+  function display(col) {
     noStroke()
-    fill(50)
-    ellipse(_x, _y, _r)
+    fill(col)
+    ellipseMode(CORNER)
+    // ellipse(_x, _y, w, h)
+    arc(_x, _y, w, h, 0, PI + QUARTER_PI, CHORD);
+
+    // maybe() && rect(_x+5, _y+5, 20)
   }
 
   // function fade() {
