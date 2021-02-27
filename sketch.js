@@ -22,8 +22,6 @@ function getColors(items) {
   let randomColId = Math.floor(Math.random() * _items.length)
   _items.splice(randomColId, 1)
 
-  console.log('bg: ', items[randomColId])
-  debugger
   return {
     bg: items[randomColId],
     colors: _items
@@ -55,43 +53,25 @@ function setup() {
 }
 
 function draw() {
-  // let newCols = Math.ceil(map(mouseX, 0, width, 0, 40))
-  // let newRows = Math.ceil(map(mouseY, 0, height, 0, 40))
-
-  // If mouse is inside the canvas:
-  // if (mouseX > 1 && mouseX < width && mouseY > 1 && mouseY < height) {
-  //   w = width/newCols
-  //   h = height/newRows
-  //   matrix = buildNewMatrix(newCols, newRows, width/newCols, height/newRows)
-  // } else {
-  //   w = width/cols
-  //   h = height/rows
-  //   matrix = buildNewMatrix(cols, rows, width/cols, height/rows)
-  // }
-
-  // image(uploadImg ? uploadImg : img, 0, 0)
-  // saveColors(matrix)
-  // background(0)
-  // shuffleArray(matrix)
-  console.log({bg: colors.bg})
   background(colors.bg)
 
   matrix.forEach((cell, i) => {
     noStroke()
     cell[0].display(xSpacing, ySpacing)
   })  
-
 }
 
 function randomDeg(_x, _y, w, h) {
   let randomNumber = (Math.random() * 10).toFixed(1)
-  if (randomNumber < 2.5 && randomNumber < 0) {
+  if (randomNumber >= 0 && randomNumber < 2.5) {
     return 0
-  } else if (randomNumber < 5 && randomNumber < 2.5) {
+  } else if (randomNumber >= 2.5 && randomNumber < 5) {
     return HALF_PI
-  } else if (randomNumber < 7.5 && randomNumber < 5) {
+  } else if (randomNumber >= 5 && randomNumber < 7.5) {
     return PI
-  } 
+  } else {
+    return TWO_PI
+  }
 }
 
 function randomSign(w,h) {
@@ -116,38 +96,6 @@ function randomSign(w,h) {
     alert(randomNumber)
   }
 }
-
-// function randomShape(w,h) {
-//   let randomNumber = (Math.random() * 10).toFixed(1)
-//   if (randomNumber < 2.5 && randomNumber > 0) {
-//     fill(0)
-//     let r = randomDeg()
-//     console.log(1)
-//     rotate(r)
-//     arc(0, 0, w, h, 0, HALF_PI)
-//   } else if (randomNumber < 5 && randomNumber > 2.5) {
-//     debugger
-//     fill(255,0,0)
-//     let r = randomDeg()
-//     console.log(2)
-//     fill(0,255,0)
-//     rotate(r)
-//     arc(0, 0, w, h, 0, PI)
-//   } else if (randomNumber < 7.5 && randomNumber > 5) {
-//     fill(0,0,255)
-//     let r = randomDeg()
-//     console.log(3)
-//     rotate(r)
-//     arc(0, 0, w, h, 0, TWO_PI)
-//   } else if (randomNumber < 1.1 && randomNumber > 7.5) {
-//     fill(100)
-//     let r = randomDeg()
-//     console.log(4)
-//     rotate(r)
-//     arc(0, 0, w, h, 0, QUARTER_PI)
-//   }
-
-// }
 
 function Spot(x, y, w, h) {
   let _x = x
