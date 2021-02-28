@@ -10,11 +10,11 @@ let h
 let input
 let colors
 let palette = [
-  '#B5D6B2',
-  '#53131E',
-  '#5A464C',
-  '#FFFACC',
-  '#FFEFBD'
+  '#227c9d',
+  '#17c3b2',
+  '#ffcb77',
+  '#fef9ef',
+  '#fe6d73'
 ]
 
 function getColors(items) {
