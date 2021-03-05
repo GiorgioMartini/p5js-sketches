@@ -1,7 +1,7 @@
+let frame
 let img
 let uploadImg
-const cols = 10
-const rows = 10
+let gridAmount = 10
 let matrix = []
 let xSpacing
 let ySpacing
@@ -9,6 +9,7 @@ let w
 let h
 let input
 let colors
+let dotsSize
 let palette = [
   '#227c9d',
   '#17c3b2',
@@ -34,31 +35,38 @@ function getRandomFromArray(items) {
 }
 
 function setup() {
-  noLoop()
-  colors = getColors(palette)
-  var myCanvas = createCanvas(600,600)
-  w = width/cols
-  h = height/rows
+  // noLoop()
+  var myCanvas = createCanvas(700,700)
   // myCanvas.parent("p5")
-  xSpacing = width/cols
-  ySpacing = height/cols
+}
 
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
+function draw() {
+  frameCount > 0
+    ? frameRate(0.2)
+    : frameRate(1)
+
+  gridAmount = Math.ceil(random(1,15))
+  w = width/gridAmount
+  h = height/gridAmount
+  xSpacing = width/gridAmount
+  ySpacing = height/gridAmount
+  colors = getColors(palette)
+  dotsSize = random(width/80, width/18)
+
+  for (let i = 0; i < gridAmount; i++) {
+    for (let j = 0; j < gridAmount; j++) {
       matrix.push([
         Spot(i*xSpacing,j*ySpacing, xSpacing, ySpacing)
       ])
     }
   }
-}
 
-function draw() {
   background(colors.bg)
-
   matrix.forEach((cell, i) => {
     noStroke()
     cell[0].display(xSpacing, ySpacing)
   })  
+  matrix = []
 }
 
 function randomDeg(_x, _y, w, h) {
@@ -81,10 +89,16 @@ function randomSign(w,h) {
     let col1 = getRandomFromArray(colors.colors)
     fill(col1)
     arc(0, 0, w, h, 0, HALF_PI)
+
+    fill(getRandomFromArray(colors.colors))
+    ellipse(0,0,dotsSize)
   } else if (randomNumber >= 3.3 && randomNumber < 6.6) {
     let col2 = getRandomFromArray(colors.colors)
     fill(col2)
     arc(0, 0, w, h, 0, PI)
+
+    fill(getRandomFromArray(colors.colors))
+    ellipse(0,0,dotsSize)
   } else if (randomNumber >= 6.6 && randomNumber <= 10) {
     let col3 = getRandomFromArray(colors.colors)
     fill(col3)
@@ -92,23 +106,20 @@ function randomSign(w,h) {
     let col4 = getRandomFromArray(colors.colors)
     fill(col4)
     arc(0, 0, w, h, PI, PI + HALF_PI)
-  } else {
-    alert(randomNumber)
-  }
+
+    fill(getRandomFromArray(colors.colors))
+    ellipse(0,0,dotsSize)
+  } 
 }
 
 function Spot(x, y, w, h) {
   let _x = x
   let _y = y
-  let _r = 10
-  let hovered = false
 
   function display(xoff, yoff) {
     noStroke()
-
     push()
       translate(_x+xoff/2,_y+yoff/2)
-  
       let r = randomDeg()
       rotate(r)
       randomSign(w,h)
@@ -116,21 +127,7 @@ function Spot(x, y, w, h) {
     pop()
   }
 
-  // function randomWalk() {
-  //   _x += random(-0.5,0.5)
-  //   _y += random(-0.5,0.5)
-  // }
-
-  function values () {
-    return {
-      _x,
-      _y,
-      hovered,
-    }
-  }
-
   return {
     display,
-    values,
   }
 }
