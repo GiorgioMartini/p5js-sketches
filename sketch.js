@@ -1,5 +1,5 @@
-let canvasHeight = 600
 let canvasWidth = 400
+let canvasHeight = canvasWidth*1.5
 let row
 let grid
 let amtOfHorizontalCircles = 20
@@ -12,7 +12,21 @@ const circleSizeMultiplier = 9
 const circleSizeProbability = 0.6   
 
 function setup () {
-  createCanvas(canvasWidth, canvasHeight, WEBGL)
+
+  if(window.innerWidth < 800) {
+    canvasWidth = window.innerWidth-80
+    canvasHeight = canvasWidth*1.5
+    var myCanvas = createCanvas(canvasWidth, canvasHeight, WEBGL)
+    console.log({canvasHeight})
+    console.log('small')
+  	myCanvas.parent("p5full")
+  } else {
+    var myCanvas = createCanvas(canvasWidth, canvasHeight, WEBGL)
+    console.log({canvasHeight})
+    console.log('big')
+  	myCanvas.parent("p5")
+  }
+
   smooth() 
   background("#140c28")
   grid = createGrid([], linesAmt, lineSpacing)
@@ -21,7 +35,7 @@ function setup () {
 
 function draw () {
   rotateX(6.7)
-  translate((-canvasWidth/2)+10, -canvasHeight/2, 100)
+  translate((-canvasWidth/2)+10, -canvasHeight/2-10, 100)
   background("#140c28")
   grid.forEach( row => {
     row.forEach( x => {
