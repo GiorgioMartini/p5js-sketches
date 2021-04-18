@@ -15,7 +15,17 @@ function preload() {
 }
 
 function setup() {
-  var myCanvas = createCanvas(img.width, img.height)
+  if(window.innerWidth < 800) {
+    img.resize(window.innerWidth-80, 0)
+    var myCanvas = createCanvas(img.width, img.height)
+    console.log('small')
+  	// myCanvas.parent("p5full")
+  } else {
+    var myCanvas = createCanvas(img.width, img.height)
+    console.log('wide')
+  	// myCanvas.parent("p5")
+  }
+
   w = width/cols
   h = height/rows
   // myCanvas.parent("p5")
@@ -51,12 +61,8 @@ function draw() {
     h = height/rows
     matrix = buildNewMatrix(cols, rows, width/cols, height/rows)
   }
-  console.log(1)
   image(img, 0, 0)
-  console.log(2)
-  console.log({matrix})
   saveColors(matrix)
-  console.log(3)
   background(0)
   shuffleArray(matrix)
 
